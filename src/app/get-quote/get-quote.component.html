@@ -1,0 +1,142 @@
+
+
+  <section  class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+          <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Customer Info</h3>
+              <form #customerForm="ngForm" (ngSubmit)="submitdata()" method="POST">
+
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+
+                    <div data-mdb-input-init class="form-outline">
+                      <label class="form-label" for="fullName">Full Name</label>
+                      <input required name="fullname" type="text"
+                       pattern="(^[A-Za-z]{3,16})([ ]{0,1})([A-Za-z]{3,16})?([ ]{0,1})?([A-Za-z]{3,16})?([ ]{0,1})?([A-Za-z]{3,16})"
+                       id="fullName" #fullname="ngModel"
+                       [(ngModel)]="customerModel.fullname"
+                       class="form-control form-control-lg"
+                       [class.is-invalid]="fullname.invalid && fullname.touched"/>
+                       <div *ngIf="fullname.errors &&(fullname.invalid || fullname.touched)">
+                       <small class="text-danger" *ngIf="fullname.errors?.['pattern']">fullname must be like(john mark)</small>
+                       <small class="text-danger" *ngIf="fullname.errors?.['required'] && fullname.touched">fullname is required</small>
+                       </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4 d-flex align-items-center">
+                    <div data-mdb-input-init class="form-outline datepicker w-100">
+                      <label for="birthday" class="form-label">Birthday</label>
+                      <input type="text" class="form-control form-control-lg" id="birthday"
+                      [(ngModel)]="customerModel.dob" name="birthday" #birthday="ngModel"
+                      required pattern="\d{4}-\d{2}-\d{2}"
+                      [class.is-invalid]="birthday.invalid && birthday.touched" />
+                      <div *ngIf="birthday.errors &&(birthday.invalid || birthday.touched)">
+                        <small class="text-danger" *ngIf="birthday.errors?.['pattern']">birthday must be like(yyyy-mm-dd)</small>
+                        <small class="text-danger" *ngIf="birthday.errors?.['required']  && birthday.touched">birthday is required</small>
+                        </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <h6 class="mb-2 pb-1">Gender: </h6>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input"  [(ngModel)]="customerModel.gender" #gender="ngModel" type="radio" name="gender" id="femaleGender"
+                        value="Female" required  checked />
+                      <label class="form-check-label" for="femaleGender">Female</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" [(ngModel)]="customerModel.gender" #gender="ngModel"
+                       type="radio" name="gender"  id="maleGender"
+                        value="Male" required />
+                      <label class="form-check-label" for="maleGender">Male</label>
+                    </div>
+                    <div  *ngIf="gender.invalid">
+                      <small class="text-danger" *ngIf="gender.errors?.['required']">Gender is required</small>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div data-mdb-input-init class="form-outline">
+                      <label class="form-label" for="city">City</label>
+                      <input  [(ngModel)]="customerModel.city" #city="ngModel" name="city"
+                      type="text" id="city" class="form-control form-control-lg"
+                      required pattern="^[a-zA-Z ]{3,20}$"
+                      [class.is-invalid]="city.invalid && city.touched" />
+                      <div *ngIf="city.errors &&(city.invalid || city.touched)">
+                        <small class="text-danger" *ngIf="city.errors?.['pattern']">city must be (3-20)characters</small>
+                        <small class="text-danger" *ngIf="city.errors?.['required']  && city.touched">city is required</small>
+                        </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 mb-4 pb-2">
+                    <div data-mdb-input-init class="form-outline">
+                      <label class="form-label" for="nationalid">National Id</label>
+                      <input [(ngModel)]="customerModel.idno"
+                      #nationalid="ngModel" name="nationalid" type="test" id="nationalid"
+                       class="form-control form-control-lg"
+                       required pattern="^\d{12}$"
+                       [class.is-invalid]="nationalid.invalid && nationalid.touched" />
+                      <div *ngIf="nationalid.errors &&(nationalid.invalid || nationalid.touched)">
+                        <small class="text-danger" *ngIf="nationalid.errors?.['pattern']">National Id must be 12 number</small>
+                        <small class="text-danger" *ngIf="nationalid.errors?.['required']  && nationalid.touched">National Id is required</small>
+                        </div>
+                    </div>
+
+                    </div>
+                  </div>
+
+                <div class="mt-4 pt-2">
+                  <input data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+                   type="submit" value="GET PRICE"
+                   [disabled]="customerForm.form.invalid" />
+                </div>
+              </form>
+              <br>
+              <div>
+                <table class="table table-primary">
+                  <thead>
+                    <tr>
+                      <th class="table-primary">PRICE</th>
+                      <th class="table-primary">TAX</th>
+                      <th class="table-primary">QUOTATION</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="isResponse">
+                    <tr>
+                      <td class="table-primary">{{response.price}}</td>
+                      <td class="table-primary">{{response.tax}}</td>
+                      <td class="table-primary">{{response.quotation_id}}</td>
+                    </tr>
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+
+
+
+

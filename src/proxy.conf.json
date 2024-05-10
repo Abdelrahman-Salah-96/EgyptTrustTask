@@ -1,0 +1,8 @@
+{
+  "/egyassignments": {
+    "target": "https://online.egypttrust.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
